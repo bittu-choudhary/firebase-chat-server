@@ -13,6 +13,6 @@ class UsersController < ApplicationController
   end
 
   def start_chat
-
+    firebase = Firebase::Client.new(ENV['base_uri'], ENV['secret_key'])
   end
 end
