@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   get 'users/sign_in'
   get 'users/list_users'
   post 'users/start_chat'
+  post 'users/send_message'
   resources :users
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

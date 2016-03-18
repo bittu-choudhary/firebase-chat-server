@@ -19,11 +19,24 @@ class UsersController < ApplicationController
     firebase = Firebase::Client.new(ENV['BASE_URI'])
     existResponse = firebase.get("users/" + from + "/activeChats/" + to)
     if !existResponse.body
-      response = firebase.set("users/" + from + "/activeChats/" + to, {name: from + "_" +to, from: from, to: to})
-      response = firebase.set("users/" + to + "/activeChats/" + from, {name: from + "_" +to, from: from, to: to})
+      time = (Time.now.getutc.to_f * 1000).to_i
+      response = firebase.set("users/" + from + "/activeChats/" + to, {name: from + "_" +to, from: from, to: to, timestamp: time})
+      response = firebase.set("users/" + to + "/activeChats/" + from, {name: from + "_" +to, from: from, to: to, timestamp: time})
       render :json=> {success: response.success?}
     else
       render :json=> {success: true}
     end
+  end
+
+  def send_message
+    from = params[:from]
+    to = params[:to]
+    channel_name = params[:channel_name]
+    message = params[:message]
+
+    firebase = Firebase::Client.new(ENV['BASE_URI'])
+    time = (Time.now.getutc.to_f * 1000).to_i
+    response = firebase.push("chats/" + channel_name + "/messages", {message: message, from: from, to: to, timestamp: time, read: false})
+    render :json=> {success: response.success?}
   end
 end
