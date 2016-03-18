@@ -17,8 +17,13 @@ class UsersController < ApplicationController
     to = params[:to]
 
     firebase = Firebase::Client.new(ENV['BASE_URI'])
-    response = firebase.set("users/" + from + "/activeChats/" + to, {name: from + "_" +to, from: from, to: to})
-    response = firebase.set("users/" + to + "/activeChats/" + from, {name: from + "_" +to, from: from, to: to})
-    render :json=> {success: response.success?}
+    existResponse = firebase.get("users/" + from + "/activeChats/" + to)
+    if !existResponse.body
+      response = firebase.set("users/" + from + "/activeChats/" + to, {name: from + "_" +to, from: from, to: to})
+      response = firebase.set("users/" + to + "/activeChats/" + from, {name: from + "_" +to, from: from, to: to})
+      render :json=> {success: response.success?}
+    else
+      render :json=> {success: true}
+    end
   end
 end
