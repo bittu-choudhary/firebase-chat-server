@@ -18,6 +18,6 @@ class UsersController < ApplicationController
     firebase = Firebase::Client.new(ENV['BASE_URI'])
     response = firebase.push("users/" + from + "/activeChats", {name: from + "_" +to, from: from, to: to})
     response = firebase.push("users/" + to + "/activeChats", {name: from + "_" +to, from: from, to: to})
-    render :json=> {success: response.success}
+    render :json=> {success: response.success?}
   end
 end
