@@ -15,9 +15,10 @@ class UsersController < ApplicationController
   def start_chat
     from = params[:from]
     to = params[:to]
+
     firebase = Firebase::Client.new(ENV['BASE_URI'])
-    response = firebase.push("users/" + from + "/activeChats", {name: from + "_" +to, from: from, to: to})
-    response = firebase.push("users/" + to + "/activeChats", {name: from + "_" +to, from: from, to: to})
+    response = firebase.set("users/" + from + "/activeChats/" + to, {name: from + "_" +to, from: from, to: to})
+    response = firebase.set("users/" + to + "/activeChats/" + from, {name: from + "_" +to, from: from, to: to})
     render :json=> {success: response.success?}
   end
 end
