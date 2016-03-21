@@ -59,6 +59,7 @@ GEM
     firebase (0.2.6)
       httpclient
       json
+    firebase_token_generator (2.0.0)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
     httpclient (2.7.1)
@@ -155,6 +156,7 @@ DEPENDENCIES
   coffee-rails (~> 4.1.0)
   dotenv-rails
   firebase
+  firebase_token_generator
   jbuilder (~> 2.0)
   jquery-rails
   pg
