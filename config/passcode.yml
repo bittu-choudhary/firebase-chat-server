@@ -1,2 +1,4 @@
 BASE_URI: "https://unlazechatresearch.firebaseio.com/"
 SECRET_KEY: "hk1paz63CtxZ9smt0ZFQ5bkQ9fq91NaVkGJJ7g9d"
+GCM_AUTH_KEY: "AIzaSyD2Wn2xwzxtDcCAm8rnJa9L0PjhP7JiCu8"
+RPUSH_APP_NAME: "firebase_app"

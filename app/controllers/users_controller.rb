@@ -2,9 +2,12 @@ class UsersController < ApplicationController
   require "firebase_token_generator"
   def sign_in
     if User.exists?(name: params[:name])
+      user = User.find_by(name: params[:name])
+      user.device_id = params[:device_id]
       payload = { :uid => params[:name]}
       generator = Firebase::FirebaseTokenGenerator.new(ENV['SECRET_KEY'])
       token = generator.create_token(payload)
+      user.save
       render :json=> {:success=>true, :user_name=>"#{params[:name]}", :auth_token => "#{token}"}, :status=>200
     else
       render :json=> {:success=>false, :errors=>"user does not exits"}, :status=>401
