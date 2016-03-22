@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
   get 'users/sign_in'
+  get 'users/fetch_unread_count'
   get 'users/list_users'
   post 'users/start_chat'
   post 'users/send_message'

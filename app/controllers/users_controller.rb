@@ -14,6 +14,30 @@ class UsersController < ApplicationController
     end
   end
 
+  def fetch_unread_count
+    firebase = Firebase::Client.new(ENV['BASE_URI'],ENV['SECRET_KEY'])
+    chats_object = firebase.get("chats")
+    chats_object.body.each do |key, value|
+      users = key.split("_",2)
+      users.each do |user|
+        if firebase.get("chats/" + key + "/" + user + "_unreadCount").body > 0
+          p "hello"
+          push_notification = Rpush::Gcm::Notification.new
+          p "push_notification"
+          p push_notification
+          push_notification.app = Rpush::Gcm::App.find_by_name(ENV['RPUSH_APP_NAME'])
+          message = "You have unread messages"
+          title = "You've got a new message"
+          push_notification.registration_ids = [User.find_by(name: user).device_id]
+          push_notification.data = { title: title, message: message, user_name: user}
+          p "push_notification extra"
+          p push_notification
+          p Rpush.push
+        end
+      end
+    end
+  end
+
   def list_users
     all_users = User.all.select(:name,:id)
     render :json=> {:success=>true, :user_array => all_users}, :status=>200
