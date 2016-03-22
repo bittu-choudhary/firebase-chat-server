@@ -32,6 +32,7 @@ class UsersController < ApplicationController
           push_notification.data = { title: title, message: message, user_name: user}
           p "push_notification extra"
           p push_notification
+          push_notification.save!
           p Rpush.push
         end
       end
