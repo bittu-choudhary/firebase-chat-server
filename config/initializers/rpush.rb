@@ -48,18 +48,21 @@ Rpush.reflect do |on|
   # end
   #
   on.notification_enqueued do |notification|
-    p "Enqueued Notification:: " + notification
+    p "Enqueued Notification:: "
+    p notification
   end
 
   # Called when a notification is successfully delivered.
   on.notification_delivered do |notification|
-    p "Delivered Notification:: " + notification
+    p "Delivered Notification:: "
+    p notification
   end
 
   # Called when notification delivery failed.
   # Call 'error_code' and 'error_description' on the notification for the cause.
   on.notification_failed do |notification|
-    p "Failed Notification:: " + notification
+    p "Failed Notification:: "
+    p notification
   end
 
   # Called when the notification delivery failed and only the notification ID
