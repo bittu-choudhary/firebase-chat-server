@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
   end
   scheduler = Rufus::Scheduler.singleton
   p "just after scheduler object"
-  scheduler.every '10s' do
+  scheduler.every '5m' do
     firebase = Firebase::Client.new(ENV['BASE_URI'],ENV['SECRET_KEY'])
     p "im here"
     chats_object = firebase.get("chats")
