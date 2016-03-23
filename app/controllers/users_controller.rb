@@ -47,8 +47,8 @@ class UsersController < ApplicationController
     existResponse = firebase.get("users/" + from + "/activeChats/" + to)
     if !existResponse.body
       time = (Time.now.getutc.to_f * 1000).to_i
-      response = firebase.set("users/" + from + "/activeChats/" + to, {name: from + "_" +to, from: from, to: to, timestamp: time, profile_url: "profile url for " + to })
-      response = firebase.set("users/" + to + "/activeChats/" + from, {name: from + "_" +to, from: from, to: to, timestamp: time, profile_url: "profile url for " + from})
+      response = firebase.set("users/" + from + "/activeChats/" + to, {name: from + "_" +to, from: from, to: to, timestamp: time, profile_url: "http://dev.moldedbits.com/wp-content/uploads/2013/10/DSC_0145_111.jpg" })
+      response = firebase.set("users/" + to + "/activeChats/" + from, {name: from + "_" +to, from: from, to: to, timestamp: time, profile_url: "http://moldedbits.com/wp-content/uploads/2013/10/DSC_2249_1.jpg"})
       render :json=> {success: response.success?}
     else
       render :json=> {success: true}
