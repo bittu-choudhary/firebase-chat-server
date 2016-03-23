@@ -21,19 +21,14 @@ class UsersController < ApplicationController
       users = key.split("_",2)
       users.each do |user|
         if firebase.get("chats/" + key + "/" + user + "_unreadCount").body > 0
-          p "hello"
           push_notification = Rpush::Gcm::Notification.new
-          p "push_notification"
-          p push_notification
           push_notification.app = Rpush::Gcm::App.find_by_name(ENV['RPUSH_APP_NAME'])
           message = "You have unread messages"
           title = "You've got a new message"
           push_notification.registration_ids = [User.find_by(name: user).device_id]
           push_notification.data = { title: title, message: message, user_name: user}
-          p "push_notification extra"
-          p push_notification
           push_notification.save!
-          p Rpush.push
+          Rpush.push
         end
       end
     end
@@ -52,8 +47,8 @@ class UsersController < ApplicationController
     existResponse = firebase.get("users/" + from + "/activeChats/" + to)
     if !existResponse.body
       time = (Time.now.getutc.to_f * 1000).to_i
-      response = firebase.set("users/" + from + "/activeChats/" + to, {name: from + "_" +to, from: from, to: to, timestamp: time})
-      response = firebase.set("users/" + to + "/activeChats/" + from, {name: from + "_" +to, from: from, to: to, timestamp: time})
+      response = firebase.set("users/" + from + "/activeChats/" + to, {name: from + "_" +to, from: from, to: to, timestamp: time, profile_url: "profile url for " + to })
+      response = firebase.set("users/" + to + "/activeChats/" + from, {name: from + "_" +to, from: from, to: to, timestamp: time, profile_url: "profile url for " + to})
       render :json=> {success: response.success?}
     else
       render :json=> {success: true}
