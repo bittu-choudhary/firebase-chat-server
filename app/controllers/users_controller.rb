@@ -48,14 +48,15 @@ class UsersController < ApplicationController
     p existResponse
     if !existResponse.body
       time = (Time.now.getutc.to_f * 1000).to_i
-      response = firebase.set("users/" + from + "/activeChats/" + to, {name: from + "_" +to, from: from, to: to, timestamp: time, profile_url: "http://dev.moldedbits.com/wp-content/uploads/2013/10/DSC_0145_111.jpg" })
-      response = firebase.set("users/" + to + "/activeChats/" + from, {name: from + "_" +to, from: from, to: to, timestamp: time, profile_url: "http://moldedbits.com/wp-content/uploads/2013/10/DSC_2249_1.jpg"})
+      response = firebase.set("users/" + from + "/activeChats/" + to, {name: from + "_" +to, from: from, to: to, timestamp: time })
+      response = firebase.set("users/" + to + "/activeChats/" + from, {name: from + "_" +to, from: from, to: to, timestamp: time})
       render :json=> {success: response.success?}
     else
       render :json=> {success: true}
     end
   end
-
+# , profile_url: "http://dev.moldedbits.com/wp-content/uploads/2013/10/DSC_0145_111.jpg"
+#, profile_url: "http://moldedbits.com/wp-content/uploads/2013/10/DSC_2249_1.jpg"
   def send_message
     from = params[:from]
     to = params[:to]
