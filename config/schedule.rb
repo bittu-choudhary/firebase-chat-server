@@ -2,22 +2,12 @@
 #
 # It's helpful, but not entirely necessary to understand cron before proceeding.
 # http://en.wikipedia.org/wiki/Cron
+env :PATH, ENV['PATH']
+set :environment, "development"
+set :output, {:error => "log/error.log", :standard => "log/cron.log"}
+job_type :runner, %Q{export PATH=/opt/rbenv/shims:/opt/rbenv/bin:/usr/bin:$PATH; eval "$(rbenv init -)"; \
+                         cd :path && rails runner "User.fetch_unread_count" --silent :output }
 
-# Example:
-#
-# set :output, "/path/to/my/cron_log.log"
-#
-# every 2.hours do
-#   command "/usr/bin/some_great_command"
-#   runner "MyModel.some_method"
-#   rake "some:great:rake:task"
-# end
-#
-# every 4.days do
-#   runner "AnotherModel.prune_old_records"
-# end
-
-# Learn more: http://github.com/javan/whenever
-every 5.minutes do
-  runner User.fetch_unread_count
+every 1.minute do
+  runner "User.fetch_unread_count"
 end

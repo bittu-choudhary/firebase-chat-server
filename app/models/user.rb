@@ -10,8 +10,11 @@ class User < ActiveRecord::Base
           push_notification.app = Rpush::Gcm::App.find_by_name(ENV['RPUSH_APP_NAME'])
           message = "You have unread messages"
           title = "You've got a new message"
+          p push_notification.app
+          p User.find_by(name: user)
           push_notification.registration_ids = [User.find_by(name: user).device_id]
           push_notification.data = { title: title, message: message, user_name: user}
+          push_notification.save!
           Rpush.push
         end
       end

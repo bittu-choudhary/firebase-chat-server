@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  # root 'welcome#index'
+  root 'application#index'
   get 'users/sign_in'
   get 'users/fetch_unread_count'
   get 'users/list_users'
