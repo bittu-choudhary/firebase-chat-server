@@ -48,7 +48,7 @@ class UsersController < ApplicationController
     if !existResponse.body
       time = (Time.now.getutc.to_f * 1000).to_i
       response = firebase.set("users/" + from + "/activeChats/" + to, {name: from + "_" +to, from: from, to: to, timestamp: time, profile_url: "profile url for " + to })
-      response = firebase.set("users/" + to + "/activeChats/" + from, {name: from + "_" +to, from: from, to: to, timestamp: time, profile_url: "profile url for " + to})
+      response = firebase.set("users/" + to + "/activeChats/" + from, {name: from + "_" +to, from: from, to: to, timestamp: time, profile_url: "profile url for " + from})
       render :json=> {success: response.success?}
     else
       render :json=> {success: true}
