@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
     app.connections = 1
     app.save!
   end
-  scheduler = Rufus::Scheduler.new
+  scheduler = Rufus::Scheduler.singleton
   p "just after scheduler object"
   scheduler.every '10s' do
     firebase = Firebase::Client.new(ENV['BASE_URI'],ENV['SECRET_KEY'])
@@ -21,7 +21,7 @@ class ApplicationController < ActionController::Base
       users = key.split("_",2)
       users.each do |user|
           p "now im here with " + user
-        if firebase.get("chats/" + key + "/" + user + "_unreadCount").body > 0
+        if !firebase.get("chats/" + key + "/" + user + "_unreadCount").body.nil? && firebase.get("chats/" + key + "/" + user + "_unreadCount").body > 0
           p "sending push"
           push_notification = Rpush::Gcm::Notification.new
           push_notification.app = Rpush::Gcm::App.find_by_name(ENV['RPUSH_APP_NAME'])
