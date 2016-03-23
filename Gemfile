@@ -31,7 +31,7 @@ gem "firebase_token_generator"
 # gem 'unicorn'
 
 # Use Capistrano for deployment
-# gem 'capistrano-rails', group: :development
+gem 'capistrano', "~> 3.4"
 group :production do
   gem 'pg'
 end
