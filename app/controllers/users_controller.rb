@@ -43,8 +43,9 @@ class UsersController < ApplicationController
     from = params[:from]
     to = params[:to]
 
-    firebase = Firebase::Client.new(ENV['BASE_URI'])
+    firebase = Firebase::Client.new(ENV['BASE_URI'],ENV['SECRET_KEY'])
     existResponse = firebase.get("users/" + from + "/activeChats/" + to)
+    p existResponse
     if !existResponse.body
       time = (Time.now.getutc.to_f * 1000).to_i
       response = firebase.set("users/" + from + "/activeChats/" + to, {name: from + "_" +to, from: from, to: to, timestamp: time, profile_url: "http://dev.moldedbits.com/wp-content/uploads/2013/10/DSC_0145_111.jpg" })
@@ -61,7 +62,7 @@ class UsersController < ApplicationController
     channel_name = params[:channel_name]
     message = params[:message]
 
-    firebase = Firebase::Client.new(ENV['BASE_URI'])
+    firebase = Firebase::Client.new(ENV['BASE_URI'],ENV['SECRET_KEY'])
     time = (Time.now.getutc.to_f * 1000).to_i
     response = firebase.push("chats/" + channel_name + "/messages", {message: message, from: from, to: to, timestamp: time, read: false})
     render :json=> {success: response.success?}
